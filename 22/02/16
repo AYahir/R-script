@@ -1,0 +1,22 @@
+
+##############################Ponderar Casos
+install.packages("questionr")
+require(questionr)
+c0<-table(sdemt215$SEX)
+c1<-wtd.table(sdemt215$SEX, weights =sdemt215$FAC)
+table(c1)
+c0
+##################PORCENTAJEs
+
+tabrama<-wtd.table(sdemt215$SEX, weights =sdemt215$FAC)
+c1.1<-round((tabrama/margin.table(talabrama))*100,2)
+c1.1
+
+
+
+##########ocupados y no ocupados
+sdemt215$SEX<-ordered(sdemt215$SEX,levels=c(1,2),labels=c("HOMBRES","MUJERES"))
+c2<-wtd.table(sdemt215$SEX, weights =sdemt215$FAC)
+c2
+
+sdemt215$NAC_MES<-ordered(sdemt215$NAC_MES,levels=c("01","02","03","04","05","06","07","08","09","10","11","12"),labels=c("ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"))
