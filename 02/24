@@ -1,0 +1,19 @@
+require(foreign)
+coe1 <- read.dbf("C:\\Users\\SALA-C28\\Desktop\\COE1T215.dbf")
+coe1$ENT<-as.numeric(as.character(coe1$ENT))
+tabla1<- subset(coe1,(ENT==26))
+tabla1$ENT<-ordered(tabla1$ENT,levels=c(26),labels=c("Sonora"))
+attach(tabla1)
+tabla1$P3L<-ordered(tabla1$P3L,levels=c("01","02","03","04","05","06","07","08","09","10","11","99"),
+                    labels=c("1 persona","2 a 5 personas","6 a 10 personas","11 a 15 personas","16 a 20 personas",
+                             "21 a 30 personas","31 a 50 personas","51 a 100 personas","101 a 250 personas","251 a 500 personas",
+                             "501 y más personas","No sabe"))
+
+tabla1$P5<-ordered(tabla1$P5,levels=c("1","2","3","9"),
+                    labels=c("Si","No trabajó la semana pasada","No se encontró en esa situación","No sabe"))
+
+tabla1$P2E<-ordered(tabla1$P2E,levels=c("1","2","3","4","5","6","9"),
+                   labels=c("una persona temporalmente ausente de su actividad u oficio?","pensionado o jubilado de su empleo?",
+                            "estudiante?","una persona que se dedica a los quehaceres de su hogar",
+                            "una persona con alguna limitación física o mental que le impide trabajar por el resto de su vida?",
+                            "Otra condición"," No sabe"))
