@@ -1,0 +1,45 @@
+require(foreign)
+SDEMT215<- read.dbf("C:\\Users\\SALA-C28\\Desktop\\SDEMT215.dbf")
+
+#METODO 1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2) >= 0 & as.numeric(SDEMT215$CLASE2) <= 2] <- 1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2) >= 3 & as.numeric(SDEMT215$CLASE2) <= 4] <- 2
+
+#METODO 2
+attach(SDEMT215)
+SDEMT215$CLASE2.2<- ifelse(as.numeric(CLASE2) >= 1 & as.numeric(CLASE2)<=2,1, ifelse(as.numeric(CLASE2) >= 3 & as.numeric(CLASE2)<=3,2, 3))
+detach(SDEMT215)
+#COMPARACION
+install.packages("questionr")
+require(questionr)
+table(SDEMT215$CLASE2.2)
+table(SDEMT215$CLASE2.1)
+
+########################### EJERCICIO RECODIFICAR VARIABLE EDAD#########################
+### 0 A 14= 1 NIÑ@S, 15 A 29=  2 JOVENES, 30 A 59= 3 ADULTOS , 60 A 97 = 4 ADULTOS MAYORES , 98Y 99= 5 NO ESPECIFICADO
+#### POR LOS DOS METODOS.... 
+### DESPUES ETIQUETAN LOS GRUPOS (SI DA TIEMPO))
+
+#######################Metodo1######################
+SDEMT215$EDA.1[as.numeric(SDEMT215$EDA) >= 1 & as.numeric(SDEMT215$EDA) <= 15] <- 1
+SDEMT215$EDA.1[as.numeric(SDEMT215$EDA) >= 16 & as.numeric(SDEMT215$EDA) <= 30] <- 2
+SDEMT215$EDA.1[as.numeric(SDEMT215$EDA) >= 31 & as.numeric(SDEMT215$EDA) <= 60] <- 3
+SDEMT215$EDA.1[as.numeric(SDEMT215$EDA) >= 61 & as.numeric(SDEMT215$EDA) <= 98] <- 4
+SDEMT215$EDA.1[as.numeric(SDEMT215$EDA) >= 99 & as.numeric(SDEMT215$EDA) <= 100] <- 5
+table(SDEMT215$EDA.1)
+
+#######################Metodo2######################
+attach(SDEMT215)
+SDEMT215$EDA.2<- ifelse(as.numeric(EDA) >= 1 & as.numeric(EDA)<=15,1, ifelse(as.numeric(EDA) >= 16 & as.numeric(EDA)<=30,2, 
+              ifelse(as.numeric(EDA) >= 31 & as.numeric(EDA)<=60,3, ifelse(as.numeric(EDA) >= 61 & as.numeric(EDA)<=98,4,5))))
+
+detach(SDEMT215)
+table(SDEMT215$EDA.2)
+
+
+#######################Etiquetamos######################
+SDEMT215$EDA.1<-ordered(SDEMT215$EDA.1,levels=c("1","2","3","4","5"),
+                   labels=c("NIÑ@S","JOVENES","ADULTOS","ADULTOS MAYORES","NO ESPECIFICADO"))
+
+SDEMT215$EDA.2<-ordered(SDEMT215$EDA.2,levels=c("1","2","3","4","5"),
+                        labels=c("NIÑ@S","JOVENES","ADULTOS","ADULTOS MAYORES","NO ESPECIFICADO"))
