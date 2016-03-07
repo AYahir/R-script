@@ -1,0 +1,30 @@
+###Series de tiempo
+##Una serie de tiempo sirve para entender el pasado y predecir el futuro ayuda a tomar decisiones con mayor información.
+##Estas decisiones pueden ser de tipo empresarial o gubernamental.
+##Un elemento relevante de las series de tiempo (ST) es el manejo de la información que puede realizar.
+##Ejemplos:
+## 1)	Tasa de desocupación
+## 2)	Número de productos vendidos en una empresa
+## 3)	Información financiera que se utiliza para invertir en una empresa
+## 4)	En la compra de aviones las aerolíneas realizan análisis de series de tiempo para evaluar el número de aviones por comprar.
+
+
+##Para formar una base de datos en ST tienen que obtener información durante intervalos fijos de tiempo (diario, semanal, mensual, anual, etc.).
+##Entre mayor información se obtenga mejor predicciones pueden realizar
+##Las series de tiempo se caracterizan por:
+##1)	Tener ciertas tendencias
+##2)	Variaciones estacionales
+##3)	Las observaciones en el tiempo tienden a estar correlacionadas
+##Una vez que la serie de tiempo cumple con la información completa se ajustan los datos y se aplican a diversos modelos 
+##para orientar decisiones planificadas.
+
+
+
+help("AirPassengers")
+data("AirPassengers")
+panam<-(AirPassengers)
+start(panam);end(panam); frequency(panam)
+panam
+plot(panam, main= "Numero de pasajeros aereos, 19949-1960", xlab= "Años", ylab= "Pasajeros(miles)")
+plot (aggregate(panam),main= "Numero de pasajeros aereos, 19949-1960")
+layout(1:2)
