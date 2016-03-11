@@ -1,0 +1,24 @@
+pob<- sample(1000:1500,15,replace=F)
+pobts<-ts(pob, frequency = 1, start=2000,)
+
+plot(pobts)
+plot (aggregate (pobts))
+
+
+#########bajar del inegi#################
+ocu<-ts(read.csv("C:\\Users\\SALA-C28\\Documents\\Series Gaxiola\\Indicadores.csv"),frequency = 4,start = 2005)
+layout(1:2)
+plot(ocu, main= "Población ocupada, 2005-2015", xlab= "Años", ylab= "Pob (%)")
+plot (aggregate(ocu),main= "Población ocupada, 2005-2015", xlab= "Años", ylab= "Pob (aggregate)")
+################Ejercicio##########
+rdeso<- sample(3:8,44,replace=T)
+rdesots<-ts(rdeso, frequency = 4, start=2005)
+layout(1:2)
+plot(rdesots, main= "Población desocupada, 2005-2015", xlab= "Años", ylab= "Pob (%)")
+plot (aggregate(rdesots),main= "Población desocupada, 2005-2015", xlab= "Años", ylab= "Pob (aggregate)")
+
+desocu<-ts(read.csv("C:\\Users\\SALA-C28\\Documents\\Series Gaxiola\\Indicadores2.csv"),frequency = 4,start = 2005)
+layout(1:2)
+plot(desocu, main= "Población desocupada, 2005-2015", xlab= "Años")
+plot (aggregate(desocu),main= "Población desocupada, 2005-2015", xlab= "Años", ylab= "Pob (aggregate)")
+
