@@ -1,0 +1,35 @@
+desocu<-ts(read.csv("C:\\Users\\SALA-C28\\Documents\\Series Gaxiola\\IndicadoresENOE_2016-03-14.csv"),frequency = 4,start = 2005)
+plot(desocu, xlab= "Años", ylab= "Pob (%)")
+plot (aggregate(desocu),xlab= "Años", ylab= "Pob (aggregate)")
+
+
+
+class(desocu)###Separamos las variables de la base
+desoparcial<-ts(desocu[,1], start=2005,frequency = 4)
+asala<-ts(desocu[,2], start=2005,frequency = 4)
+till<-ts(desocu[,3], start=2005,frequency = 4)
+seriemultiple<-ts.intersect(desoparcial,asala,till)##Serie de tiempo multiple
+plot(seriemultiple, main="SErie de tiempo multiple",xlab="Años",ylab="Numero de personas",col="blue")
+seriemultiple
+
+###########Separar Series de Datos############
+seriemultiple05.09<-window(seriemultiple, start=c(2005,1), end=c(2009,4))
+seriemultiple10.15<-window(seriemultiple, start=c(2010,1), end=c(2015,4))
+plot(seriemultiple05.09, main="SErie de tiempo multiple",xlab="Años",ylab="Numero de personas",col="blue")
+plot(seriemultiple10.15, main="SErie de tiempo multiple",xlab="Años",ylab="Numero de personas",col="blue")
+
+
+############Ejercicio equipo KAREN, ABIGAIL, FABIOLA & YAHIR##########
+
+Elektra<-ts(read.csv("C:\\Users\\SALA-C28\\Documents\\Series Gaxiola\\table (1).csv"),frequency = 52,start = 2000)
+class(Elektra)
+open<-ts(Elektra[,1], start=2000,frequency = 52)
+high<-ts(Elektra[,2], start=2000,frequency = 52) 
+low<-ts(Elektra[,3], start=2000,frequency = 52)
+close<-ts(Elektra[,4], start=2000,frequency = 52)
+plot(open, main="Precio de apertura",xlab="Años",ylab="Precio",col="blue")
+plot(high, main="Precio mas alto",xlab="Años",ylab="Precio",col="blue")
+plot(low, main="Precio mas bajo",xlab="Años",ylab="Precio",col="blue")
+plot(close, main="Precio de cierre",xlab="Años",ylab="Precio",col="blue")
+elktramultipl<-ts.intersect(open,high,low,close)
+plot(elktramultipl, main="Precios históricos Elektra",xlab="Años",ylab="Precio",col="red")
