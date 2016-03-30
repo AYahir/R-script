@@ -1,0 +1,49 @@
+CEMEX<-ts(read.csv(("C:\\Users\\SALA-C28\\Documents\\Series Gaxiola\\CEMEX.csv"),header = T),frequency = 252, start = 2000);
+CEMEX
+
+### la descomposicion de la serie de tiempo nos permite conocer la estacionalidad, la tendencua y la
+##aleatoriedad de la ST
+## 3 para descomponer una serie de tiempo se utiliza la funcion de decompose()
+##para descomponer una st
+icaadi<- decompose(CEMEX)
+
+###para ver graficamente una descomposicion de la ST en R exiten
+## dos formas de graficar la descomposiciom## 1) directo de la serie e tiempo
+plot(decompose(CEMEX))
+plot(icaadi)
+
+## en estos casos nos debe dar los mismo resultados
+##ahora como vimos la clase pasad hay dos modelos que podemos descom´poner la st
+##1) modelo aditivo xt= mt+st+zt
+##2) modelo multiplicativo xt=mt*st+zt
+## ahora para descomponer una serie en un modelo aditivo
+## tdesocadi<- decompose(tdesoc) ## aqui es para descomponer la serie de tiempo por defaul nos
+##da el modelo aditivo 
+## ahora para descomponer un st en un modelo multiplicativo
+tdesocmult<- decompose(CEMEX,type="mult")
+
+
+names(icaadi)
+icaadi$type
+names(tdesocmult)
+
+
+
+tendad<-icaadi$trend
+icaadi$trend
+
+
+tendmult<-tdesocmult$trend
+estadi<-icaadi$seasonal
+estmult<-tdesocmult$seasonal
+
+lo<-icaadi$random
+lo
+
+
+ts.plot(cbind(tendad, tendad*estadi),lty=1:2,col=c(32,115))
+datos<-data.frame(tendad,estadi)
+datos2<-data.frame(datos,lo)
+write.table(datos2, file = "tabla.txt", sep = "\t", 
+            eol = "\n", dec = ".", row.names = TRUE,
+            col.names = TRUE)
