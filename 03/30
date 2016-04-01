@@ -44,6 +44,6 @@ lo
 ts.plot(cbind(tendad, tendad*estadi),lty=1:2,col=c(32,115))
 datos<-data.frame(tendad,estadi)
 datos2<-data.frame(datos,lo)
-write.table(datos2, file = "tabla.txt", sep = "\t", 
+write.table(datos2, file = "tabla.csv", sep = ",", 
             eol = "\n", dec = ".", row.names = TRUE,
             col.names = TRUE)
