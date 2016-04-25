@@ -1,0 +1,33 @@
+install.packages("fpp")
+require("fpp")
+labo<- read.csv("C:\\Users\\SALA-C28.RTIC-C28-HP\\Documents\\Series Gaxiola\\Indicadores st.csv")
+part <-ts(labo[,1], start=2005, frequency=4)
+plot (part)
+Acf(part)
+##meanf(part,h)
+partpro <- meanf (part,4)
+plot(partpro)
+#part es la ST
+###el numero de datos a proyectar en este caso h=4
+############### ingenuo ##########
+partnai<-snaive(part,4)
+partnai
+plot(partnai)
+
+##### metodo de la deriva
+partder <- rwf(part,4,drift = T)
+plot(partder)
+partnai
+
+
+########### EJEMPLOS ###########
+part1<- window(part,start=2005, end=2010)
+partaj1 <- meanf (part1,h=4)
+partaj2<- naive(part1,h=4)
+partaj3<- snaive(part1,h=4)
+
+plot(partaj1,plot.conf=FALSE, main="Proyeccion tasas de desempleo trimestral")
+lines(partaj2$mean, col=2)
+lines(partaj3$mean, col=3)
+legend("topleft",lty=1, col=c(1,2,3), 
+       legend= c("metodo media","metodo ingenuo","metodo ingenuo estacional" ))
