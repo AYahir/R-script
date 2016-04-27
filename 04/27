@@ -1,0 +1,25 @@
+pib<- read.csv("C:\\Users\\SALA-C28.RTIC-C28-HP\\Documents\\Series Gaxiola\\PIB TRIMESTRAL A PRECIOS DE 2008.csv")
+pibts<-ts(pib[,2], start=1993, frequency=4)
+plot(pibts)
+Acf(pibts)
+
+
+
+pibtspro<- meanf(pibts, 4)
+plot(pibtspro)
+pibtsnai<- naive(pibts, 4)
+plot(pibtsnai)
+pibtssnai<- naive(pibts, 4)
+plot(pibtssnai)
+pibtsder<- rwf(pibts, 4)
+plot(pibtsder)
+
+accuracy(pibtspro)
+accuracy(pibtsnai)
+accuracy(pibtssnai)
+accuracy(pibtsder)
+
+evalmed<-accuracy(pibtspro, pibts)
+evaling<-accuracy(pibtsnai)
+evalsnai<-accuracy(pibtssnai)
+evalder<-accuracy(pibtsder)
