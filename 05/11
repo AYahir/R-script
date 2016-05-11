@@ -1,140 +1,126 @@
-deso<-read.csv("C:\\Users\\SALA-C21\\Desktop\\base1.csv",header=TRUE)
-par<-ts(deso[,1],start=2005,frequency=4)
-mod1<-ses(par,alpha=0.1,initial="simple",h=4)
-mod2<-ses(par,alpha=0.6,initial="simple",h=4)
-mod3<-ses(par,alpha=0.9,initial="simple",h=4)
+###MODELO DE SUAVIZAMIENTO EXPONENCIAL SIMPLE
 
-X11()
-plot(mod1,plot.conf=FALSE,ylab="Participacion",xlab="Year",main="TASA DE PARTICIPACION",fcol="white",type="o")
-##GRAFICANDO AJUSTE
-lines(fitted(mod1),col="blue",type="o")
-lines(fitted(mod2),col="red",type="o")
-lines(fitted(mod3),col="green",type="o")
-##GRAFICANDO LA MEDIA DEL PRONOSTICO
-lines(mod1$mean,col="blue",type="o")
-lines(mod2$mean,col="red",type="o")
-lines(mod3$mean,col="green",type="o")
-legend("topleft",lty=1,col=c(1,"blue","red","green"),c("data",expression(alpha==0.1),expression(alpha==0.6),expression(alpha==0.9)),pch=10)
-x1<-accuracy(mod1)
-x2<-accuracy(mod2)
-x3<-accuracy(mod3)
+##Pronostica series de tiempo que no tengtan tendencia nio estacionalidad, otorga mayor peso a las observaciones
+##presentes que a las pasadas, alpha debe estar entre 0 y 1
 
+require (forecast)
+require (fpp)
+
+base <- read.csv("C:\\Users\\SALA-C7\\Documents\\IndicadoresENOE_2016-04-25.csv", header=TRUE)
+deso <- ts(base[,2], start = 2005, frequency = 4)
+deso
+
+###Proponiendo los modelos 
+
+fit1 <- ses(deso, alpha=0.2, initial="simple", h=4)
+fit2 <- ses(deso, alpha=0.6, initial="simple", h=4)
+fit3 <- ses(deso, alpha= 1, initial="simple", h=4)
+
+###h significa el numero de pronosticos que queremis hacer 
 
 
-sub<-ts(deso[,6],start=2005,frequency=4)
-mod4<-ses(sub,alpha=0.0001,initial="simple",h=4)
-mod5<-ses(sub,alpha=0.5,initial="simple",h=4)
-mod6<-ses(sub,alpha=0.987,initial="simple",h=4)
+#Grafuicando
 
-X11()
-plot(mod4,plot.conf=FALSE,ylab="Subocupacion",xlab="Year",main="TASA DE SUBOCUPACION",fcol="white",type="o")
-##GRAFICANDO AJUSTE
-lines(fitted(mod4),col="blue",type="o")
-lines(fitted(mod5),col="red",type="o")
-lines(fitted(mod6),col="green",type="o")
-##GRAFICANDO LA MEDIA DEL PRONOSTICO
-lines(mod4$mean,col="blue",type="o")
-lines(mod5$mean,col="red",type="o")
-lines(mod6$mean,col="green",type="o")
-legend("topleft",lty=1,col=c(1,"blue","red","green"),c("data",expression(alpha==0.0001),expression(alpha==0.5),expression(alpha==0.987)),pch=10)
+plot(fit1, plot.conf=FALSE, ylab="Desocupa",
+     xlab="Year", main="", fcol="white", type="o")
 
-##SI ALPHA SE APROXIMA A 1 ENTONCES EL MOD. ES MAS PARECIDO AL COMPORTAMIENTO ORIGINAL.
-##########################################################################################################################################
+##Graficamos los ajustes (valores que el modelo calcularia con alpha distinta)
+lines(fitted(fit1), col="blue", type="o")
+lines(fitted(fit2), col="red", type="o")
+lines(fitted(fit3), col="green", type="o")
 
-deso <- read.csv("C:\\Users\\SALA-C22\\Documents\\enoe.csv")
-require(forecast)
-require(fpp)
-des <- ts(deso[,2],start=2005, frequency=4)
-mod1<- ses(des, alpha=0.2, initial="simple",h=4)
-mod2<- ses(des, alpha=0.6, initial="simple",h=4)
-mod3<- ses(des, alpha=1, initial="simple",h=4)
-plot(mod1,plot.conf=FALSE, ylab="desocupa",xlab="Años",main="grafica",fcol="deepskyblue2",type="o")
-#ajustes del modelo
-lines(fitted(mod1),col="deepskyblue4",type="o")
-lines(fitted(mod2),col="deepskyblue3",type="o")
-lines(fitted(mod3),col="deepskyblue",type="o")
-#media de c/u de los modelos
-lines(mod1$mean,col="deepskyblue4",type="o")
-lines(mod2$mean,col="deepskyblue3",type="o")
-lines(mod3$mean,col="deepskyblue",type="o")
-legend("topleft",lty=1,col = c(1,"deepskyblue4","deepskyblue3","deepskyblue"),c("data",expression(alpha==0.2),expression(alpha==0.6),expression(alpha==1),pch=10)
-aju1<-mod1$fitted
-aju2<-mod2$fitted
-aju3<-mod3$fitted
-resmod1<-(des-aju1)
-resmod2<-(des-aju2)
-resmod3<-(des-aju3)
-mod123<-data.frame(des,aju1,aju2,aju3,resmod1,resmod2,resmod3)
-View(mod123)
-res1<-(resmod1-mod1$residuals)
-res2<-(resmod2-mod2$residuals)
-res3<-(resmod3-mod3$residuals)
-res1
-res2
-res3
-##########ejercicio
-ocu <- ts(deso[,1],start=2005, frequency=4)
-modd1<- ses(ocu, alpha=0.1, initial="simple",h=4)
-modd2<- ses(ocu, alpha=0.6, initial="simple",h=4)
-modd3<- ses(ocu, alpha=0.9, initial="simple",h=4)
-plot(modd1,plot.conf=FALSE, ylab="ocupa",xlab="Años",main="grafica",fcol="deepskyblue2",type="o")
-lines(fitted(modd1),col="deepskyblue4",type="o")
-lines(fitted(modd2),col="deepskyblue3",type="o")
-lines(fitted(modd3),col="deepskyblue",type="o")
-lines(mod1$mean,col="deepskyblue4",type="o")
-lines(mod2$mean,col="deepskyblue3",type="o")
-lines(mod3$mean,col="deepskyblue",type="o")
-legend("topright",lty=1,col = c(1,"deepskyblue4","deepskyblue3","deepskyblue"),c("data",expression(alpha==0.1),expression(alpha==0.6),expression(alpha==0.9),pch=10)
-ajuu1<-modd1$fitted
-ajuu2<-modd2$fitted
-ajuu3<-modd3$fitted
-resmodd1<-(des-ajuu1)
-resmodd2<-(des-ajuu2)
-resmodd3<-(des-ajuu3)
-modd123<-data.frame(ocu,ajuu1,ajuu2,ajuu3,resmodd1,resmodd2,resmodd3)
-View(modd123)
-ress1<-(resmodd1-modd1$residuals)
-ress2<-(resmodd2-modd2$residuals)
-ress3<-(resmodd3-modd3$residuals)
-ress1
-ress2
-ress3
-x<-accuracy(modd1)
-y<-accuracy(modd2)
-z<-accuracy(modd3)
-x
-y
-z
+##Graficando la media del pronístico de cada uno de los modelos 
+lines(fit1$mean, col="blue", type="o")
+lines(fit2$mean, col="red", type="o")
+lines(fit3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.2), expression(alpha == 0.6),
+         expression(alpha == 1)),pch=1)
+
+Una vez que obtengan la grafica de los tres modelos.... generar en excel una hoja donde nos muestre los datos ajustados (fitted)
+y se resten a los valores reales... de ahi ver segun los residuales que modelo es mejor , tambien obtener el m
+MAE, RMSE, MAPE Y SSE
+
+###Para sacar los residuales
+
+names(fit1)
+aju1 <- fit1$fitted
+aju1
+aju2 <- fit2$fitted
+aju2
+aju3 <- fit3$fitted
+aju3
+
+base_deso <- data.frame(deso, aju1, aju2, aju3, deso-aju1, deso-aju2, deso-aju3)
+View(base_deso)
+
+RES1 <- deso-aju1-fit1$residuals
+RES2 <- deso-aju2-fit2$residuals
+RES3 <- deso-aju3-fit3$residuals
+
+RES1
+RES2
+RES3
+
+##EJERCICIO: Elegir dos series de tiempo sin tendencia ni estacionalidad
+##Serie 1 alpha=0.1, 0.6 y 0.9
+##Serie 2 alpha= 0.0001, 0.5, 0.987
+#Graficar las series de tiempo, Calcular el MAE, RMSE, MAPE Y SSE, Decidir en cada una de las series cual ocuparian
+#Argumente por que es mejor usar un alpha cercano a 0 o a 1
 #
-pre <- ts(deso[,4],start=2005, frequency=4)
-moddd1<- ses(pre, alpha=0.0001, initial="simple",h=4)
-moddd2<- ses(pre, alpha=0.5, initial="simple",h=4)
-moddd3<- ses(pre, alpha=0.987, initial="simple",h=4)
-plot(moddd1,plot.conf=FALSE, ylab="pres",xlab="Años",main="grafica",fcol="deepskyblue2",type="o")
-lines(fitted(moddd1),col="deepskyblue4",type="o")
-lines(fitted(moddd2),col="deepskyblue3",type="o")
-lines(fitted(moddd3),col="deepskyblue",type="o")
-lines(moddd1$mean,col="deepskyblue4",type="o")
-lines(moddd2$mean,col="deepskyblue3",type="o")
-lines(moddd3$mean,col="deepskyblue",type="o")
-legend("topleft",lty=1,col = c(1,"deepskyblue4","deepskyblue3","deepskyblue"),c("data",expression(alpha==0.0001),expression(alpha==0.5),expression(alpha==0.987),pch=10)
-ajuuu1<-moddd1$fitted
-ajuuu2<-moddd2$fitted
-ajuuu3<-moddd3$fitted
-resmoddd1<-(des-ajuuu1)
-resmoddd2<-(des-ajuuu2)
-resmoddd3<-(des-ajuuu3)
-moddd123<-data.frame(pre,ajuuu1,ajuuu2,ajuuu3,resmoddd1,resmoddd2,resmoddd3)
-View(moddd123)
-resss1<-(resmoddd1-moddd1$residuals)
-resss2<-(resmoddd2-moddd2$residuals)
-resss3<-(resmoddd3-moddd3$residuals)
-resss1
-resss2
-resss3
-x1<-accuracy(moddd1)
-y1<-accuracy(moddd2)
-z1<-accuracy(moddd3)
-x1
-y1
-z1      
+
+subocop <- ts(base[,6], start = 2005, frequency = 4)
+concri <- ts(base[,7], start = 2005, frequency = 4)
+
+###Proponiendo los modelos 
+#TASA DE SUBOCUPACIÓN
+mod_sub1 <- ses(subocop, alpha=0.1, initial="simple", h=4)
+mod_sub2 <- ses(subocop, alpha=0.6, initial="simple", h=4)
+mod_sub3 <- ses(subocop, alpha= 0.9, initial="simple", h=4)
+
+#TASA DE CONDICIONES CRITICAS DE OCUPACIÓN
+mod_con1 <- ses(concri, alpha=0.0001, initial="simple", h=4)
+mod_con2 <- ses(concri, alpha=0.5, initial="simple", h=4)
+mod_con3 <- ses(concri, alpha= 0.987, initial="simple", h=4)
+
+##GRAFICANDO TASA DE SUBOCUPACIÓN
+plot(mod_sub1, plot.conf=FALSE, ylab="Subocupación",
+     xlab="Año", main="Tasa de Subocupación", fcol="white", type="o")
+
+lines(fitted(mod_sub1), col="blue", type="o")
+lines(fitted(mod_sub2), col="red", type="o")
+lines(fitted(mod_sub3), col="green", type="o")
+
+lines(mod_sub1$mean, col="blue", type="o")
+lines(mod_sub2$mean, col="red", type="o")
+lines(mod_sub3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.1), expression(alpha == 0.6),
+         expression(alpha == 0.9)),pch=1)
+
+##GRAFICANDO TASA DE CONDICIONES CRITICAS DE OCUPACIÓN 
+
+plot(mod_con1, plot.conf=FALSE, ylab="Condiciones Criticas",
+     xlab="Año", main="Tasa de Condiciones Criticas de Ocupación", fcol="white", type="o")
+
+lines(fitted(mod_con1), col="blue", type="o")
+lines(fitted(mod_con2), col="red", type="o")
+lines(fitted(mod_con3), col="green", type="o")
+
+lines(mod_con1$mean, col="blue", type="o")
+lines(mod_con2$mean, col="red", type="o")
+lines(mod_con3$mean, col="green", type="o")
+legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+       c("data", expression(alpha == 0.0001), expression(alpha == 0.5),
+         expression(alpha == 0.987)),pch=1)
+
+
+##Obteniendo indicadores
+
+accuracy(mod_sub1)
+accuracy(mod_sub2)
+accuracy(mod_sub3)
+
+accuracy(mod_con1)
+accuracy(mod_con2)
+accuracy(mod_con3)
